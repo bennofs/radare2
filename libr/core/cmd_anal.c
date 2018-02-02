@@ -3004,6 +3004,9 @@ void cmd_anal_reg(RCore *core, const char *str) {
 			__anal_reg_list (core, type, size, 2);
 		}
 		break;
+	case '!': // "for debug""
+    core->dbg->reg = core->anal->reg;
+		break;
 	case '-': // "ar-"
 	case '*': // "ar*"
 	case 'R': // "arR"
