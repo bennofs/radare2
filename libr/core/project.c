@@ -640,16 +640,9 @@ static bool projectSaveScript(RCore *core, const char *file, int opts) {
 	}
 	// Set file.path and file.lastpath to empty string to signal
 	// new behaviour to project load routine (see io maps below).
-	r_config_set (core->config, "file.path", "");
-	r_config_set (core->config, "file.lastpath", "");
 	if (opts & R_CORE_PRJ_EVAL) {
 		r_str_write (fd, "# eval\n");
 		r_config_list (core->config, NULL, true);
-		r_cons_flush ();
-	}
-	if (opts & R_CORE_PRJ_IO_MAPS && core->io && core->io->files) {
-		fdc = 3;
-		r_id_storage_foreach (core->io->files, (RIDStorageForeachCb)store_files_and_maps, core);
 		r_cons_flush ();
 	}
 	{
