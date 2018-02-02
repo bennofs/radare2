@@ -138,13 +138,13 @@ CPU_MODEL cpu_models[] = {
 	{ .model = "ATmega2561",  .pc = 17, .inherit = "ATmega640" },
 	{ .model = "ATmega88",    .pc = 8,  .inherit = "ATmega8" },
 //	CPU_MODEL_DECL ("ATmega168",   13, 512, 512),
-	// last model is the default AVR - ATmega8 forever!
+	// last model is the default AVR - Hardcoded for rhme3
 	{
-		.model = "ATmega8", .pc = 13,
+		.model = "ATxmega128a4u", .pc = 17,
 		.consts = {
 			cpu_reg_common,
-			cpu_memsize_common,
-			cpu_pagesize_5_bits,
+			cpu_memsize_xmega128a4u,
+			cpu_pagesize_7_bits,
 			NULL
 		}
 	},
@@ -1795,7 +1795,7 @@ static int esil_avr_fini(RAnalEsil *esil) {
 
 static int set_reg_profile(RAnal *anal) {
 	const char *p =
-		"=PC	pcl\n"
+		"=PC	pc\n"
 		"=SP	sp\n"
 // explained in http://www.nongnu.org/avr-libc/user-manual/FAQ.html
 // and http://www.avrfreaks.net/forum/function-calling-convention-gcc-generated-assembly-file
