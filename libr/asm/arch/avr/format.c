@@ -90,13 +90,33 @@ static int formatDisassembledOperand(char *strOperand, int operandNum, const dis
 		strOperand = NULL;
 		retVal = 0;
 		break;
-	case OPERAND_REGISTER:
 	case OPERAND_REGISTER_STARTR16:
-	case OPERAND_REGISTER_EVEN_PAIR_STARTR24:
-	case OPERAND_REGISTER_EVEN_PAIR:
-		retVal = sprintf (strOperand, "%s%d", OPERAND_PREFIX_REGISTER,
-			dInstruction.operands[operandNum]);
+	case OPERAND_REGISTER: {
+    // special case some registers for easier reading
+    int registerNum = dInstruction.operands[operandNum];
+    switch(registerNum) {
+    case 26: retVal = sprintf(strOperand, "xL"); break;
+    case 27: retVal = sprintf(strOperand, "xH"); break;
+    case 28: retVal = sprintf(strOperand, "yL"); break;
+    case 29: retVal = sprintf(strOperand, "yH"); break;
+    case 30: retVal = sprintf(strOperand, "zL"); break;
+    case 31: retVal = sprintf(strOperand, "zH"); break;
+    default: retVal = sprintf (strOperand, "%s%d", OPERAND_PREFIX_REGISTER, dInstruction.operands[operandNum]);
+    }
 		break;
+  }
+	case OPERAND_REGISTER_EVEN_PAIR_STARTR24:
+	case OPERAND_REGISTER_EVEN_PAIR: {
+    // special case some registers for easier reading
+    int registerNum = dInstruction.operands[operandNum];
+    switch(registerNum) {
+    case 26: retVal = sprintf(strOperand, "x"); break;
+    case 28: retVal = sprintf(strOperand, "y"); break;
+    case 30: retVal = sprintf(strOperand, "z"); break;
+    default: retVal = sprintf (strOperand, "%s%dw", OPERAND_PREFIX_REGISTER, dInstruction.operands[operandNum]);
+    }
+		break;
+  }
 	case OPERAND_DATA:
 	case OPERAND_COMPLEMENTED_DATA:
 		if (fOptions.options & FORMAT_OPTION_DATA_BIN) {
